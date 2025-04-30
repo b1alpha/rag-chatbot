@@ -1,0 +1,46 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+
+stages:
+  - test
+  - build
+
+test:
+  stage: test
+  script:
+    - docker build -t rag-chatbot:test .
+    - docker run --rm \
+        -e OPENAI_API_KEY=dummy-key \
+        -e CHROMA_PERSIST_DIR=/app/chroma_store \
+        rag-chatbot:test \
+        pytest -m "unit" app/ --cov=app --cov-report=term-missing --cov-report=html
+    - docker run -d --name rag-test \
+        -e OPENAI_API_KEY=dummy-key \
+        -e CHROMA_PERSIST_DIR=/app/chroma_store \
+        -p 8000:8000 \
+        rag-chatbot:test
+    - sleep 5
+    - docker run --rm \
+        --network host \
+        -v $(pwd):/app \
+        -w /app \
+        python:3.11-slim \
+        bash -c "pip install pytest requests && pytest -m integration app/tests/integration/"
+    - docker stop rag-test
+    - docker rm rag-test
+  artifacts:
+    paths:
+      - htmlcov/
+    expire_in: 1 week
+
+build:
+  stage: build
+  script:
+    - docker build -t rag-chatbot:latest .
+  only:
+    - main
