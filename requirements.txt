@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+langchain
+langchain-openai
+openai
+chromadb
+python-dotenv
+pytest
+pytest-cov
+flake8
+httpx  # Required for TestClient 
