@@ -41,7 +41,7 @@ jobs:
         docker stop rag-test
         docker rm rag-test
 
-  build:
+  build-prod-image:
     needs: integration-tests
     runs-on: ubuntu-latest
     steps:
