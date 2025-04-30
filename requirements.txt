@@ -1,7 +1,8 @@
 fastapi
 uvicorn
-langchain
-langchain-openai
+langchain  # Core LangChain functionality
+langchain-community  # Document loaders and vector stores
+langchain-openai  # OpenAI integrations
 openai
 chromadb
 python-dotenv
