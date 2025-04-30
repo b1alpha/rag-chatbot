@@ -16,13 +16,11 @@ jobs:
       uses: docker/setup-buildx-action@v2
 
     - name: Build test image
-      uses: docker/build-push-action@v4
-      with:
-        context: .
-        push: false
-        tags: rag-chatbot:test
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+      run: |
+        docker build -t rag-chatbot:test .
+
+    - name: Verify image exists
+      run: docker images | grep rag-chatbot:test
 
     - name: Run unit tests
       run: |
@@ -30,7 +28,6 @@ jobs:
         mkdir -p coverage-reports
         # Run tests with coverage, mounting the reports directory
         docker run --rm \
-          -e OPENAI_API_KEY=dummy-key \
           -e CHROMA_PERSIST_DIR=/app/chroma_store \
           -v $(pwd)/coverage-reports:/app/htmlcov \
           rag-chatbot:test \
@@ -47,7 +44,6 @@ jobs:
       run: |
         # Start the container in the background
         docker run -d --name rag-test \
-          -e OPENAI_API_KEY=dummy-key \
           -e CHROMA_PERSIST_DIR=/app/chroma_store \
           -p 8000:8000 \
           rag-chatbot:test
@@ -77,10 +73,5 @@ jobs:
       uses: docker/setup-buildx-action@v2
 
     - name: Build production image
-      uses: docker/build-push-action@v4
-      with:
-        context: .
-        push: false
-        tags: rag-chatbot:latest
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+      run: |
+        docker build -t rag-chatbot:latest .

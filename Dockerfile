@@ -15,8 +15,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Set environment variables
-ARG OPENAI_API_KEY
-ENV OPENAI_API_KEY=$OPENAI_API_KEY
 ENV PYTHONPATH=/app
 
 # Default command to run the application
