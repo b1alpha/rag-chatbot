@@ -32,12 +32,6 @@ jobs:
           rag-chatbot:test \
           pytest -m "unit" app/ --cov=app --cov-report=term-missing --cov-report=html
 
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-report
-        path: htmlcov/
-
     - name: Run integration tests
       run: |
         # Start the container in the background
@@ -61,6 +55,11 @@ jobs:
         # Clean up
         docker stop rag-test
         docker rm rag-test
+
+    artifacts:
+      paths:
+        - htmlcov/
+      expire_in: 1 week
 
   build:
     needs: test
