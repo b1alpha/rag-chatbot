@@ -1,11 +1,14 @@
 import os
 
+from dotenv import load_dotenv
 from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
 
 persist_dir = "./chroma_store"
 source_dir = "./data/sample_docs"
+
+load_dotenv()
 
 
 def ingest_documents():

@@ -1,6 +1,9 @@
+from dotenv import load_dotenv
 from langchain.chains import RetrievalQA
 from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+
+load_dotenv()
 
 
 def get_retriever():
