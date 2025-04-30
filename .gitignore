@@ -36,8 +36,6 @@ env/
 # Project specific
 .env
 chroma_store/
-data/sample_docs/*.txt
-!data/sample_docs/sample.txt  # Keep the sample file
 
 # Logs
 *.log

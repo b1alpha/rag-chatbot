@@ -1,0 +1,126 @@
+This is a sample document for testing the RAG chatbot.
+The chatbot uses this document to answer questions.
+It demonstrates how the retrieval-augmented generation works.
+The document contains information that can be used to test the system.
+
+European Capital Cities Information:
+
+1. London, United Kingdom
+   - Population: ~9 million
+   - Landmark: Big Ben, Tower of London
+   - Currency: British Pound (GBP)
+   - Language: English
+
+2. Paris, France
+   - Population: ~2.1 million
+   - Landmark: Eiffel Tower, Louvre Museum
+   - Currency: Euro (EUR)
+   - Language: French
+
+3. Berlin, Germany
+   - Population: ~3.7 million
+   - Landmark: Brandenburg Gate, Berlin Wall
+   - Currency: Euro (EUR)
+   - Language: German
+
+4. Rome, Italy
+   - Population: ~2.8 million
+   - Landmark: Colosseum, Vatican City
+   - Currency: Euro (EUR)
+   - Language: Italian
+
+5. Madrid, Spain
+   - Population: ~3.3 million
+   - Landmark: Royal Palace, Prado Museum
+   - Currency: Euro (EUR)
+   - Language: Spanish
+
+6. Amsterdam, Netherlands
+   - Population: ~900,000
+   - Landmark: Anne Frank House, Van Gogh Museum
+   - Currency: Euro (EUR)
+   - Language: Dutch
+
+7. Vienna, Austria
+   - Population: ~1.9 million
+   - Landmark: Schönbrunn Palace, St. Stephen's Cathedral
+   - Currency: Euro (EUR)
+   - Language: German
+
+8. Brussels, Belgium
+   - Population: ~1.2 million
+   - Landmark: Grand Place, Atomium
+   - Currency: Euro (EUR)
+   - Language: Dutch, French, German
+
+9. Stockholm, Sweden
+   - Population: ~1 million
+   - Landmark: Royal Palace, Vasa Museum
+   - Currency: Swedish Krona (SEK)
+   - Language: Swedish
+
+10. Copenhagen, Denmark
+    - Population: ~800,000
+    - Landmark: Little Mermaid, Tivoli Gardens
+    - Currency: Danish Krone (DKK)
+    - Language: Danish
+
+11. Oslo, Norway
+    - Population: ~700,000
+    - Landmark: Viking Ship Museum, Oslo Opera House
+    - Currency: Norwegian Krone (NOK)
+    - Language: Norwegian
+
+12. Helsinki, Finland
+    - Population: ~650,000
+    - Landmark: Helsinki Cathedral, Suomenlinna
+    - Currency: Euro (EUR)
+    - Language: Finnish, Swedish
+
+13. Warsaw, Poland
+    - Population: ~1.8 million
+    - Landmark: Royal Castle, Warsaw Old Town
+    - Currency: Polish Złoty (PLN)
+    - Language: Polish
+
+14. Prague, Czech Republic
+    - Population: ~1.3 million
+    - Landmark: Prague Castle, Charles Bridge
+    - Currency: Czech Koruna (CZK)
+    - Language: Czech
+
+15. Budapest, Hungary
+    - Population: ~1.7 million
+    - Landmark: Buda Castle, Parliament Building
+    - Currency: Hungarian Forint (HUF)
+    - Language: Hungarian
+
+16. Athens, Greece
+    - Population: ~3.1 million
+    - Landmark: Acropolis, Parthenon
+    - Currency: Euro (EUR)
+    - Language: Greek
+
+17. Lisbon, Portugal
+    - Population: ~500,000
+    - Landmark: Belém Tower, Jerónimos Monastery
+    - Currency: Euro (EUR)
+    - Language: Portuguese
+
+18. Dublin, Ireland
+    - Population: ~1.2 million
+    - Landmark: Trinity College, Guinness Storehouse
+    - Currency: Euro (EUR)
+    - Language: English, Irish
+
+19. Reykjavik, Iceland
+    - Population: ~130,000
+    - Landmark: Hallgrímskirkja, Blue Lagoon
+    - Currency: Icelandic Króna (ISK)
+    - Language: Icelandic
+
+20. Zagreb, Croatia
+    - Population: ~800,000
+    - Landmark: Zagreb Cathedral, Ban Jelačić Square
+    - Currency: Euro (EUR)
+    - Language: Croatian
