@@ -17,10 +17,17 @@ jobs:
 
     - name: Build test image
       run: |
-        docker build -t rag-chatbot:test .
+        echo "Building Docker image..."
+        docker build -t rag-chatbot:test . --progress=plain
+        echo "Build completed. Listing images:"
+        docker images
 
     - name: Verify image exists
-      run: docker images | grep rag-chatbot:test
+      run: |
+        echo "Checking for image..."
+        docker images | grep rag-chatbot:test || echo "Image not found"
+        echo "Current images:"
+        docker images
 
     - name: Run unit tests
       run: |
@@ -74,4 +81,7 @@ jobs:
 
     - name: Build production image
       run: |
-        docker build -t rag-chatbot:latest .
+        echo "Building production image..."
+        docker build -t rag-chatbot:latest . --progress=plain
+        echo "Build completed. Listing images:"
+        docker images
