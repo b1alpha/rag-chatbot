@@ -31,7 +31,7 @@ def mock_openai_embeddings():
 
 
 @pytest.mark.unit
-def test_ingest_documents(mock_openai_embeddings):
+def test_ingest_documents():
     # Mock os.listdir to return a test file
     with patch("os.listdir") as mock_listdir:
         mock_listdir.return_value = ["test.txt"]
@@ -39,16 +39,22 @@ def test_ingest_documents(mock_openai_embeddings):
         # Mock TextLoader
         with patch("app.embed.TextLoader") as mock_loader:
             mock_doc = MagicMock()
+            mock_doc.page_content = "Test content"
             mock_loader.return_value.load.return_value = [mock_doc]
 
-            # Mock Chroma
-            with patch("app.embed.Chroma") as mock_chroma:
-                # Call the function
-                ingest_documents()
+            # Mock OpenAIEmbeddings
+            with patch("app.embed.OpenAIEmbeddings") as mock_embeddings:
+                mock_embeddings_instance = MagicMock()
+                mock_embeddings.return_value = mock_embeddings_instance
 
-                # Verify Chroma was called with correct arguments
-                mock_chroma.from_documents.assert_called_once_with(
-                    [mock_doc],
-                    mock_openai_embeddings,
-                    persist_directory="./chroma_store",
-                )
+                # Mock Chroma
+                with patch("app.embed.Chroma") as mock_chroma:
+                    # Call the function
+                    ingest_documents()
+
+                    # Verify Chroma was called with correct arguments
+                    mock_chroma.from_documents.assert_called_once_with(
+                        [mock_doc],
+                        mock_embeddings_instance,
+                        persist_directory="./chroma_store",
+                    )
