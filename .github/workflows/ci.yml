@@ -22,13 +22,6 @@ jobs:
         echo "Build completed. Listing images:"
         docker images
 
-    - name: Verify image exists
-      run: |
-        echo "Checking for image..."
-        docker images | grep rag-chatbot:test || echo "Image not found"
-        echo "Current images:"
-        docker images
-
     - name: Run unit tests
       run: |
         # Create directory for coverage reports
@@ -64,7 +57,7 @@ jobs:
           -v $(pwd):/app \
           -w /app \
           python:3.11-slim \
-          bash -c "pip install pytest requests && pytest -m integration app/tests/integration/"
+          bash -c "pip install -r requirements.txt && pytest -m integration app/tests/integration/"
 
         # Clean up
         docker stop rag-test
