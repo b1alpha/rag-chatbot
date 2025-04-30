@@ -9,6 +9,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     steps:
     - uses: actions/checkout@v3
     
@@ -22,15 +24,16 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install pytest pytest-cov
+        pip install pytest pytest-cov flake8
     
     - name: Run linting
       run: |
-        pip install flake8
         flake8 app/ --count --select=E9,F63,F7,F82 --show-source --statistics
         flake8 app/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     
     - name: Run tests
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
         pytest app/ --cov=app --cov-report=xml
     
@@ -54,4 +57,8 @@ jobs:
       with:
         context: .
         push: false
-        tags: rag-chatbot:latest 
+        tags: rag-chatbot:latest
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        build-args: |
+          OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
