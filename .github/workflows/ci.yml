@@ -12,33 +12,55 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build test image
+      uses: docker/build-push-action@v4
       with:
-        python-version: '3.11'
-        cache: 'pip'
+        context: .
+        push: false
+        tags: rag-chatbot:test
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
 
-    - name: Install dependencies
+    - name: Run unit tests
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        docker run --rm \
+          -e OPENAI_API_KEY=dummy-key \
+          -e CHROMA_PERSIST_DIR=/app/chroma_store \
+          rag-chatbot:test \
+          pytest -m "unit" app/ --cov=app --cov-report=term-missing --cov-report=html
 
-    - name: Run linting
-      run: |
-        # Check code formatting with black
-        black --check app/
-        # Run ruff for comprehensive linting
-        ruff check app/
-
-    - name: Run tests
-      run: |
-        pytest app/ --cov=app --cov-report=xml
-
-    - name: Upload coverage
-      uses: codecov/codecov-action@v3
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
       with:
-        file: ./coverage.xml
-        fail_ci_if_error: true
+        name: coverage-report
+        path: htmlcov/
+
+    - name: Run integration tests
+      run: |
+        # Start the container in the background
+        docker run -d --name rag-test \
+          -e OPENAI_API_KEY=dummy-key \
+          -e CHROMA_PERSIST_DIR=/app/chroma_store \
+          -p 8000:8000 \
+          rag-chatbot:test
+
+        # Wait for the container to be ready
+        sleep 5
+
+        # Run the integration tests
+        docker run --rm \
+          --network host \
+          -v $(pwd):/app \
+          -w /app \
+          python:3.11-slim \
+          bash -c "pip install pytest requests && pytest -m integration app/tests/integration/"
+
+        # Clean up
+        docker stop rag-test
+        docker rm rag-test
 
   build:
     needs: test
@@ -49,7 +71,7 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-    - name: Build Docker image
+    - name: Build production image
       uses: docker/build-push-action@v4
       with:
         context: .
