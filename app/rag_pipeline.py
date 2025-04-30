@@ -1,29 +1,21 @@
 from langchain.chains import RetrievalQA
-from langchain_openai import ChatOpenAI
 from langchain_community.vectorstores import Chroma
-from langchain_openai import OpenAIEmbeddings
-from langchain_community.document_loaders import TextLoader
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
-persist_dir = "./chroma_store"
 
-retriever = Chroma(
-    persist_directory=persist_dir,
-    embedding_function=OpenAIEmbeddings()
-).as_retriever()
+def get_retriever():
+    persist_dir = "./chroma_store"
+    return Chroma(persist_directory=persist_dir, embedding_function=OpenAIEmbeddings())
 
-# Specify GPT-3.5 Turbo model
-llm = ChatOpenAI(
-    model="gpt-3.5-turbo",
-    temperature=0
-)
 
-qa_chain = RetrievalQA.from_chain_type(
-    llm=llm,
-    retriever=retriever
-)
+def get_answer(question: str) -> str:
+    if not question or not question.strip():
+        raise ValueError("Question cannot be empty")
 
-def get_answer(question):
-    if not question or not isinstance(question, str):
-        raise ValueError("Question must be a non-empty string")
+    retriever = get_retriever()
+    qa_chain = RetrievalQA.from_chain_type(
+        llm=ChatOpenAI(), chain_type="stuff", retriever=retriever.as_retriever()
+    )
+
     result = qa_chain.invoke({"query": question})
-    return result["result"] 
+    return result["result"]

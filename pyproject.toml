@@ -1,0 +1,96 @@
+[project]
+name = "rag-chatbot"
+version = "0.1.0"
+description = "A RAG-based chatbot using LangChain and OpenAI"
+authors = [
+    {name = "Brennon Obst", email = "b1alpha@gmail.com"}
+]
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "langchain",
+    "langchain-community",
+    "langchain-openai",
+    "openai",
+    "chromadb",
+    "python-dotenv",
+    "pytest",
+    "pytest-cov",
+    "flake8",
+    "httpx",
+    "docker",
+    "requests",
+    "black"
+]
+requires-python = ">=3.11"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ['E203']
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".venv",
+    "venv",
+    "env",
+    ".tox"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["app/tests"]
+python_files = ["test_*.py"]
+addopts = [
+    "--verbose",
+    "--cov=app",
+    "--cov-report=term-missing",
+    "--cov-report=xml"
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning"
+]
+
+[tool.coverage.run]
+source = ["app"]
+omit = [
+    "app/tests/*",
+    "app/__init__.py"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "pass",
+    "raise ImportError"
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+]
+ignore = ["E203"]  # Ignore whitespace before colon (conflicts with black)
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]

@@ -1,3 +1,7 @@
+# Version control
+.git
+.gitignore
+
 # Python
 __pycache__/
 *.py[cod]
@@ -21,31 +25,17 @@ wheels/
 *.egg
 
 # Virtual Environment
-.venv/
+.env
+.venv
+env/
 venv/
 ENV/
-env/
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
-.DS_Store
-
-# Project specific
-.env
-chroma_store/
-data/sample_docs/*.txt
-!data/sample_docs/sample.txt  # Keep the sample file
-
-# Logs
-*.log
-logs/
-
-# Local development
-*.sqlite3
-*.db
 
 # Testing
 .coverage
@@ -56,10 +46,15 @@ htmlcov/
 coverage.xml
 *.cover
 
-# Formatting and Linting
-.mypy_cache/
-.dmypy.json
-dmypy.json
-.pyre/
-.pytype/
-cython_debug/
+# Logs
+*.log
+
+# Local development
+.DS_Store
+*.db
+*.sqlite3
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml

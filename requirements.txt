@@ -11,4 +11,8 @@ pytest-cov
 flake8
 httpx  # Required for TestClient
 docker  # Required for Docker tests
-requests  # Required for Docker tests 
+requests  # Required for Docker tests
+black  # Code formatter
+ruff  # Fast Python linter
+hatchling  # Modern build backend
+pre-commit  # Git hooks manager

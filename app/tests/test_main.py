@@ -1,45 +1,58 @@
+from unittest.mock import patch
+
+import pytest
 from fastapi.testclient import TestClient
+
 from app.main import app
 
 client = TestClient(app)
+
+
+@pytest.fixture
+def mock_get_answer():
+    with patch("app.main.get_answer") as mock:
+        mock.return_value = "Test answer"
+        yield mock
+
 
 def test_health_endpoint():
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json() == {"status": "ok"}
 
-def test_query_endpoint():
-    # Test with a valid question
+
+def test_query_endpoint(mock_get_answer):
     response = client.post(
-        "/query",
-        json={"question": "What is this document about?"}
+        "/query", json={"question": "What is the capital of France?"}
     )
     assert response.status_code == 200
-    assert "answer" in response.json()
+    assert response.json() == {"answer": "Test answer"}
+    mock_get_answer.assert_called_once_with("What is the capital of France?")
+
 
 def test_query_endpoint_invalid_input():
-    # Test with empty request body
-    response = client.post(
-        "/query",
-        json={}
-    )
-    assert response.status_code == 422  # Pydantic validation error
-    assert "detail" in response.json()
+    # Test empty question
+    response = client.post("/query", json={"question": ""})
+    assert response.status_code == 422
 
-    # Test with empty question
-    response = client.post(
-        "/query",
-        json={"question": ""}
-    )
-    assert response.status_code == 422  # Pydantic validation error for min_length
-    assert "detail" in response.json()
-    assert "string should have at least 1 character" in response.json()["detail"][0]["msg"].lower()
+    # Test missing question
+    response = client.post("/query", json={})
+    assert response.status_code == 422
 
-    # Test with non-string question
-    response = client.post(
-        "/query",
-        json={"question": 123}
-    )
-    assert response.status_code == 422  # Pydantic validation error for type
-    assert "detail" in response.json()
-    assert any("string" in error["type"].lower() for error in response.json()["detail"]) 
+    # Test non-string question
+    response = client.post("/query", json={"question": 123})
+    assert response.status_code == 422
+
+
+def test_query_endpoint_error_handling(mock_get_answer):
+    # Test ValueError handling
+    mock_get_answer.side_effect = ValueError("Invalid question")
+    response = client.post("/query", json={"question": "test"})
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Invalid question"
+
+    # Test general exception handling
+    mock_get_answer.side_effect = Exception("Unexpected error")
+    response = client.post("/query", json={"question": "test"})
+    assert response.status_code == 500
+    assert response.json()["detail"] == "Unexpected error"

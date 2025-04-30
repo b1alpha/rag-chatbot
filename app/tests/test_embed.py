@@ -1,40 +1,54 @@
+from unittest.mock import MagicMock, patch
+
 import pytest
-import os
-from unittest.mock import patch, MagicMock
+
 from app.embed import ingest_documents
+
 
 @pytest.fixture
 def mock_documents():
     return [
         MagicMock(page_content="Test document 1"),
-        MagicMock(page_content="Test document 2")
+        MagicMock(page_content="Test document 2"),
     ]
+
 
 @pytest.fixture
 def mock_loader():
-    with patch('app.embed.TextLoader') as mock:
-        instance = mock.return_value
-        instance.load.return_value = [MagicMock(page_content="Test document")]
-        yield mock
+    with patch("app.embed.TextLoader") as mock_loader:
+        mock_doc = MagicMock()
+        mock_doc.load.return_value = [MagicMock(page_content="Test content")]
+        mock_loader.return_value = mock_doc
+        yield mock_loader
 
-def test_ingest_documents(mock_loader, tmp_path):
-    # Create a temporary directory for testing
-    test_source_dir = tmp_path / "test_docs"
-    test_source_dir.mkdir()
-    test_persist_dir = tmp_path / "test_chroma"
-    
-    # Create a test file
-    test_file = test_source_dir / "test.txt"
-    test_file.write_text("Test content")
-    
-    with patch('app.embed.source_dir', str(test_source_dir)), \
-         patch('app.embed.persist_dir', str(test_persist_dir)), \
-         patch('app.embed.Chroma.from_documents') as mock_chroma:
-        
-        ingest_documents()
-        
-        # Verify TextLoader was called with the correct path
-        mock_loader.assert_called_once_with(str(test_file))
-        
-        # Verify Chroma.from_documents was called
-        mock_chroma.assert_called_once() 
+
+@pytest.fixture
+def mock_openai_embeddings():
+    with patch("app.embed.OpenAIEmbeddings") as mock:
+        mock_instance = MagicMock()
+        mock.return_value = mock_instance
+        yield mock_instance
+
+
+@pytest.mark.unit
+def test_ingest_documents(mock_openai_embeddings):
+    # Mock os.listdir to return a test file
+    with patch("os.listdir") as mock_listdir:
+        mock_listdir.return_value = ["test.txt"]
+
+        # Mock TextLoader
+        with patch("app.embed.TextLoader") as mock_loader:
+            mock_doc = MagicMock()
+            mock_loader.return_value.load.return_value = [mock_doc]
+
+            # Mock Chroma
+            with patch("app.embed.Chroma") as mock_chroma:
+                # Call the function
+                ingest_documents()
+
+                # Verify Chroma was called with correct arguments
+                mock_chroma.from_documents.assert_called_once_with(
+                    [mock_doc],
+                    mock_openai_embeddings,
+                    persist_directory="./chroma_store",
+                )
