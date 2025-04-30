@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  unit-tests:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -24,47 +24,31 @@ jobs:
 
     - name: Run unit tests
       run: |
-        # Create directory for coverage reports
-        mkdir -p coverage-reports
-        # Run tests with coverage, mounting the reports directory
-        docker run --rm \
-          -e CHROMA_PERSIST_DIR=/app/chroma_store \
-          -v $(pwd)/coverage-reports:/app/htmlcov \
-          rag-chatbot:test \
-          pytest -m "unit" app/ --cov=app --cov-report=term-missing --cov-report=html
+        docker run --rm rag-chatbot:test pytest -m "unit" app/
 
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v4
-      with:
-        name: coverage-report
-        path: coverage-reports/
-        retention-days: 7
+  integration-tests:
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build test image
+      run: |
+        docker build -t rag-chatbot:test . --progress=plain
 
     - name: Run integration tests
       run: |
-        # Start the container in the background
-        docker run -d --name rag-test \
-          -e CHROMA_PERSIST_DIR=/app/chroma_store \
-          -p 8000:8000 \
-          rag-chatbot:test
-
-        # Wait for the container to be ready
+        docker run -d --name rag-test -p 8000:8000 rag-chatbot:test
         sleep 5
-
-        # Run the integration tests
-        docker run --rm \
-          --network host \
-          -v $(pwd):/app \
-          -w /app \
-          python:3.11-slim \
-          bash -c "pip install -r requirements.txt && pytest -m integration app/tests/integration/"
-
-        # Clean up
+        docker run --rm --network host rag-chatbot:test pytest -m integration app/tests/integration/
         docker stop rag-test
         docker rm rag-test
 
   build:
-    needs: test
+    needs: integration-tests
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
