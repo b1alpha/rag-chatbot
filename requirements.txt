@@ -8,4 +8,6 @@ python-dotenv
 pytest
 pytest-cov
 flake8
-httpx  # Required for TestClient 
+httpx  # Required for TestClient
+docker  # Required for Docker tests
+requests  # Required for Docker tests 
