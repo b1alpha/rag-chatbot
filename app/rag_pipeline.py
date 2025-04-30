@@ -5,7 +5,10 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
 def get_retriever():
     persist_dir = "./chroma_store"
-    return Chroma(persist_directory=persist_dir, embedding_function=OpenAIEmbeddings())
+    vectorstore = Chroma(
+        persist_directory=persist_dir, embedding_function=OpenAIEmbeddings()
+    )
+    return vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 3})
 
 
 def get_answer(question: str) -> str:
@@ -14,7 +17,7 @@ def get_answer(question: str) -> str:
 
     retriever = get_retriever()
     qa_chain = RetrievalQA.from_chain_type(
-        llm=ChatOpenAI(), chain_type="stuff", retriever=retriever.as_retriever()
+        llm=ChatOpenAI(), chain_type="stuff", retriever=retriever
     )
 
     result = qa_chain.invoke({"query": question})
