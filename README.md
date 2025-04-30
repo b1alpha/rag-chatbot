@@ -51,7 +51,17 @@ The server will be available at http://localhost:8000
 ## Docker Support
 
 Build and run with Docker:
+
+### Option 1: Using environment variables directly
 ```bash
 docker build -t rag-chatbot .
 docker run -p 8000:8000 -e OPENAI_API_KEY=your_api_key_here rag-chatbot
-``` 
+```
+
+### Option 2: Using a .env file
+```bash
+docker build -t rag-chatbot .
+docker run -p 8000:8000 --env-file .env rag-chatbot
+```
+
+Note: Make sure your `.env` file is in the same directory where you run the docker command.
