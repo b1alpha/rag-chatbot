@@ -37,6 +37,9 @@ env/
 .env
 chroma_store/
 
+# Data directories (contain actual documents)
+data/
+
 # Logs
 *.log
 logs/
