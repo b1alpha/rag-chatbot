@@ -7,10 +7,8 @@ import os
 import sys
 from pathlib import Path
 
-# Add the app directory to the Python path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'app'))
-
-from app.static_analysis import StaticAnalyzer
+# Since we're now in the app directory, import directly
+from static_analysis import StaticAnalyzer
 
 
 def test_basic_functionality():
@@ -65,9 +63,9 @@ def test_basic_functionality():
             return "General testing guidance"
     
     # Patch the get_answer function
-    import app.static_analysis
-    original_get_answer = app.static_analysis.get_answer
-    app.static_analysis.get_answer = mock_get_answer
+    import static_analysis
+    original_get_answer = static_analysis.get_answer
+    static_analysis.get_answer = mock_get_answer
     
     try:
         test_portfolio = analyzer.find_test_files(current_repo)
@@ -80,7 +78,7 @@ def test_basic_functionality():
     
     finally:
         # Restore original function
-        app.static_analysis.get_answer = original_get_answer
+        static_analysis.get_answer = original_get_answer
     
     # Test 3: CI/CD file detection
     print("\n3. Testing CI/CD file detection...")

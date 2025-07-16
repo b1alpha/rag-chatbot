@@ -1,0 +1,294 @@
+{
+  "repo_path": ".",
+  "test_portfolio": {
+    "unit": {
+      "name": "unit",
+      "files": [
+        "test_static_analysis.py",
+        "tests/test_process_pdfs.py",
+        "tests/test_rag_pipeline.py",
+        "tests/test_static_analysis.py",
+        "tests/test_embed.py",
+        "tests/test_main.py",
+        "tests/integration/test_docker.py"
+      ],
+      "count": 7,
+      "patterns": [
+        "\\.test\\.(js|ts|py|java|cs)$",
+        "\\.spec\\.(js|ts|py|java|cs)$",
+        "test_.*\\.py$",
+        ".*_test\\.py$",
+        "\\.test\\.tsx?$",
+        "test/.*unit.*",
+        "tests/.*unit.*",
+        "__tests__/.*unit.*"
+      ],
+      "description": "Unit testing is a type of software testing where individual units or components of a software application are tested in isolation. A unit test focuses on the smallest unit of source code, typically a class or a method, and verifies that it behaves as expected. The main purpose of unit testing is to validate that each unit of the software performs as designed and to catch any bugs or issues at an early stage of development. Unit tests are automated and are usually written by software developers themselves to ensure the reliability and integrity of the codebase."
+    },
+    "component": {
+      "name": "component",
+      "files": [],
+      "count": 0,
+      "patterns": [
+        "\\.component\\.test\\.(js|ts|tsx)$",
+        "\\.component\\.spec\\.(js|ts|tsx)$",
+        "test/.*component.*",
+        "tests/.*component.*",
+        "__tests__/.*component.*"
+      ],
+      "description": "Component testing, also known as unit testing, is a type of testing performed on individual components or modules of a software application in isolation from the rest of the code. The purpose of component testing is to validate the correctness and quality of the individual units or components of the software. Component testing aims to identify any defects or errors in the code at an early stage, allowing developers to fix them before integration with other components. This type of testing helps ensure that each unit or component of the software functions as expected and meets the specified requirements."
+    },
+    "integration": {
+      "name": "integration",
+      "files": [
+        "tests/integration/test_docker.py"
+      ],
+      "count": 1,
+      "patterns": [
+        "\\.integration\\.test\\.(js|ts|py|java|cs)$",
+        "\\.integration\\.spec\\.(js|ts|py|java|cs)$",
+        "test/.*integration.*",
+        "tests/.*integration.*",
+        "__tests__/.*integration.*"
+      ],
+      "description": "Integration testing is a software testing technique where individual units of software are combined and tested as a group. The purpose of integration testing is to verify that multiple units or components can work together as expected when integrated. It helps uncover issues such as communication between components, data flow, and interactions between different parts of the system."
+    },
+    "contract": {
+      "name": "contract",
+      "files": [],
+      "count": 0,
+      "patterns": [
+        "\\.contract\\.test\\.(js|ts|py|java|cs)$",
+        "\\.contract\\.spec\\.(js|ts|py|java|cs)$",
+        "test/.*contract.*",
+        "tests/.*contract.*",
+        "__tests__/.*contract.*",
+        ".*pact.*",
+        ".*contract.*"
+      ],
+      "description": "Contract testing is a method used in software development to verify interactions between different microservices or components within a system. In contract testing, each service defines and publishes a contract describing the expected input and output, and then each consumer of that service creates tests based on this contract to ensure that their interactions will work as expected. The purpose of contract testing is to detect any inconsistencies or issues in communication between services early on in the development process, allowing for more reliable and resilient systems."
+    },
+    "e2e": {
+      "name": "e2e",
+      "files": [],
+      "count": 0,
+      "patterns": [
+        "\\.e2e\\.test\\.(js|ts|py|java|cs)$",
+        "\\.e2e\\.spec\\.(js|ts|py|java|cs)$",
+        "test/.*e2e.*",
+        "tests/.*e2e.*",
+        "__tests__/.*e2e.*",
+        ".*cypress.*",
+        ".*playwright.*",
+        ".*selenium.*"
+      ],
+      "description": "End-to-end (e2e) testing is a software testing methodology that aims to test an application's workflow from start to finish. This type of testing simulates real user scenarios to ensure that all the integrated components of an application work together correctly. E2e tests are typically used to identify issues with the entire system rather than individual components. The purpose of e2e testing is to verify that the application functions as expected, from the user's perspective, and that interactions between different parts of the system work seamlessly."
+    },
+    "healthcheck": {
+      "name": "healthcheck",
+      "files": [],
+      "count": 0,
+      "patterns": [
+        "\\.health\\.test\\.(js|ts|py|java|cs)$",
+        "\\.health\\.spec\\.(js|ts|py|java|cs)$",
+        "test/.*health.*",
+        "tests/.*health.*",
+        "__tests__/.*health.*",
+        ".*health.*check.*"
+      ],
+      "description": "Healthcheck testing, also known as health monitoring or system checks, is a process of evaluating the health and performance of a system or application to ensure it is functioning correctly. These tests are usually automated and conducted regularly to identify any potential issues or inconsistencies within the system. Healthcheck tests help to prevent downtime, monitor system resources, and ensure that the system is meeting its performance criteria. They are essential in maintaining the stability and reliability of a system or application."
+    }
+  },
+  "strategy_assessment": {
+    "overall_score": 38.0,
+    "areas": {
+      "test_distribution": {
+        "unit_percentage": 87.5,
+        "integration_percentage": 12.5,
+        "e2e_percentage": 0.0,
+        "ideal_distribution": "It is essential to have a balanced distribution of unit, integration, and end-to-end (e2e) tests in a comprehensive testing strategy. Each type of test serves a different purpose and helps ensure the quality and stability of the software being developed.\n\nUnit tests are typically written by developers and focus on testing individual components or functions in isolation. They are foundational in catching bugs early in the development process. It is recommended to have a high percentage of unit tests in your test suite to cover different code paths and scenarios at the component level.\n\nIntegration tests verify the interactions between different modules or components in the system. They help ensure that these components work correctly together and can communicate effectively. Having a moderate amount of integration tests in your test suite is crucial to test the integration points and dependencies within the system.\n\nEnd-to-end (e2e) tests simulate real user scenarios and interactions with the application to ensure that the software behaves as expected from the user's perspective. These tests are usually written from a user's point of view and test the entire application workflow. While e2e tests are important for ensuring overall system functionality, they can be more time-consuming to write and maintain. It is advisable to have fewer e2e tests compared to unit and integration tests in your test suite.\n\nIn summary, an ideal distribution of tests in a test strategy could include a high percentage of unit tests to cover individual components, a moderate amount of integration tests to test component interactions, and a lower percentage of e2e tests to validate overall system behavior. However, the actual distribution may vary depending on the specific project requirements, priorities, and constraints.",
+        "score": 64
+      },
+      "ci_cd": {
+        "files_found": [],
+        "has_ci": false,
+        "score": 20
+      },
+      "documentation": {
+        "files_found": [],
+        "has_docs": false,
+        "score": 30
+      }
+    },
+    "recommendations": [
+      "Based on the test strategy provided which consists of 87.5% unit tests, 12.5% integration tests, and 0.0% end-to-end tests, here are some key recommendations for improving the codebase's test coverage:",
+      "",
+      "1. **Increase End-to-End (E2E) Testing**: Since the codebase currently lacks E2E tests, consider adding E2E tests to cover the entire application flow. E2E tests are crucial for simulating real user scenarios and ensuring the system works as expected from end to end.",
+      "",
+      "2. **Maintain Unit Testing**: Since the majority of tests are unit tests, ensure that these tests continue to cover individual components and functions to catch bugs early in the development process.",
+      "",
+      "3. **Balance with Integration Testing**: Integration tests play a critical role in verifying the interactions between different components/modules. Increase the coverage of integration tests to ensure that the integrated parts work correctly together.",
+      "",
+      "4. **Automate Testing**: Implement automation for all types of tests (unit, integration, and E2E) to streamline the testing process and enable continuous testing as the codebase evolves.",
+      "",
+      "5. **Review and Refactor Tests**: Regularly review the existing tests to identify any redundant, ineffective, or outdated tests. Refactor the tests for better maintenance and readability.",
+      "",
+      "6. **Consider Other Testing Types**: Depending on the project requirements, consider incorporating other testing types like performance testing, security testing, or usability testing to enhance the overall test coverage.",
+      "",
+      "By following these recommendations, you can improve the overall test coverage and quality of the codebase."
+    ]
+  },
+  "quality_issues": [
+    {
+      "category": "Test Quality",
+      "severity": "MEDIUM",
+      "file_path": "test_static_analysis.py",
+      "line_number": 14,
+      "issue": "Test method is too long",
+      "recommendation": "Break down large tests into smaller, focused tests",
+      "context": "Test method spans 100 lines"
+    },
+    {
+      "category": "Test Quality",
+      "severity": "MEDIUM",
+      "file_path": "test_static_analysis.py",
+      "line_number": 25,
+      "issue": "Test method is too long",
+      "recommendation": "Break down large tests into smaller, focused tests",
+      "context": "Test method spans 89 lines"
+    },
+    {
+      "category": "Test Quality",
+      "severity": "MEDIUM",
+      "file_path": "test_static_analysis.py",
+      "line_number": 26,
+      "issue": "Test method is too long",
+      "recommendation": "Break down large tests into smaller, focused tests",
+      "context": "Test method spans 88 lines"
+    },
+    {
+      "category": "Test Quality",
+      "severity": "MEDIUM",
+      "file_path": "test_static_analysis.py",
+      "line_number": 34,
+      "issue": "Test method is too long",
+      "recommendation": "Break down large tests into smaller, focused tests",
+      "context": "Test method spans 80 lines"
+    },
+    {
+      "category": "Test Quality",
+      "severity": "MEDIUM",
+      "file_path": "test_static_analysis.py",
+      "line_number": 36,
+      "issue": "Test method is too long",
+      "recommendation": "Break down large tests into smaller, focused tests",
+      "context": "Test method spans 78 lines"
+    },
+    {
+      "category": "Test Quality",
+      "severity": "MEDIUM",
+      "file_path": "test_static_analysis.py",
+      "line_number": 38,
+      "issue": "Test method is too long",
+      "recommendation": "Break down large tests into smaller, focused tests",
+      "context": "Test method spans 76 lines"
+    },
+    {
+      "category": "Test Quality",
+      "severity": "MEDIUM",
+      "file_path": "test_static_analysis.py",
+      "line_number": 42,
+      "issue": "Test method is too long",
+      "recommendation": "Break down large tests into smaller, focused tests",
+      "context": "Test method spans 72 lines"
+    },
+    {
+      "category": "Test Configuration",
+      "severity": "HIGH",
+      "file_path": "tests/integration/test_docker.py",
+      "line_number": 8,
+      "issue": "Hardcoded value detected",
+      "recommendation": "Use configuration files or environment variables",
+      "context": "response = requests.get(\"http://localhost:8000/health\")"
+    },
+    {
+      "category": "Test Configuration",
+      "severity": "HIGH",
+      "file_path": "tests/integration/test_docker.py",
+      "line_number": 16,
+      "issue": "Hardcoded value detected",
+      "recommendation": "Use configuration files or environment variables",
+      "context": "response = requests.post(\"http://localhost:8000/query\", json={\"question\": \"\"})"
+    },
+    {
+      "category": "Code Quality",
+      "severity": "MEDIUM",
+      "file_path": "static_analysis.py",
+      "line_number": null,
+      "issue": "File is too long (581 lines)",
+      "recommendation": "Consider breaking down large files into smaller modules",
+      "context": "File has 581 lines"
+    },
+    {
+      "category": "Code Maintenance",
+      "severity": "LOW",
+      "file_path": "static_analysis.py",
+      "line_number": 400,
+      "issue": "Technical debt marker found",
+      "recommendation": "Address technical debt items",
+      "context": "# Check for TODO/FIXME comments"
+    },
+    {
+      "category": "Code Maintenance",
+      "severity": "LOW",
+      "file_path": "static_analysis.py",
+      "line_number": 402,
+      "issue": "Technical debt marker found",
+      "recommendation": "Address technical debt items",
+      "context": "if re.search(r'(TODO|FIXME|XXX|HACK)', line, re.IGNORECASE):"
+    },
+    {
+      "category": "Project Structure",
+      "severity": "MEDIUM",
+      "file_path": ".",
+      "line_number": null,
+      "issue": "Missing README.md",
+      "recommendation": "Add README.md to improve project documentation and setup",
+      "context": "Standard file README.md not found"
+    },
+    {
+      "category": "Project Structure",
+      "severity": "MEDIUM",
+      "file_path": ".",
+      "line_number": null,
+      "issue": "Missing requirements.txt",
+      "recommendation": "Add requirements.txt to improve project documentation and setup",
+      "context": "Standard file requirements.txt not found"
+    },
+    {
+      "category": "Project Structure",
+      "severity": "MEDIUM",
+      "file_path": ".",
+      "line_number": null,
+      "issue": "Missing package.json",
+      "recommendation": "Add package.json to improve project documentation and setup",
+      "context": "Standard file package.json not found"
+    },
+    {
+      "category": "Project Structure",
+      "severity": "MEDIUM",
+      "file_path": ".",
+      "line_number": null,
+      "issue": "Missing Dockerfile",
+      "recommendation": "Add Dockerfile to improve project documentation and setup",
+      "context": "Standard file Dockerfile not found"
+    }
+  ],
+  "summary": {
+    "total_tests": 8,
+    "total_issues": 16,
+    "high_severity_issues": 2,
+    "overall_score": 38.0,
+    "test_levels_found": 2
+  }
+}

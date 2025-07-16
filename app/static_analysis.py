@@ -8,11 +8,11 @@ from pathlib import Path
 from dataclasses import dataclass
 from collections import defaultdict
 
-from app.rag_pipeline import get_answer
+from rag_pipeline import get_answer
 
 
 @dataclass
-class TestLevel:
+class LevelInfo:
     """Represents a test level with its characteristics"""
     name: str
     files: List[str]
@@ -37,7 +37,7 @@ class QualityIssue:
 class AnalysisReport:
     """Main analysis report containing all findings"""
     repo_path: str
-    test_portfolio: Dict[str, TestLevel]
+    test_portfolio: Dict[str, LevelInfo]
     strategy_assessment: Dict[str, Any]
     quality_issues: List[QualityIssue]
     summary: Dict[str, Any]
@@ -46,7 +46,7 @@ class AnalysisReport:
 class StaticAnalyzer:
     """Main static analysis engine that uses RAG to analyze code repositories"""
     
-    def __init__(self, quality_chunks_dir: str = "./data/quality_chunks_processed"):
+    def __init__(self, quality_chunks_dir: str = "../data/quality_chunks_processed"):
         self.quality_chunks_dir = quality_chunks_dir
         self.test_patterns = {
             'unit': [
@@ -114,7 +114,7 @@ class StaticAnalyzer:
                     context += "\n"
         return context
     
-    def find_test_files(self, repo_path: str) -> Dict[str, TestLevel]:
+    def find_test_files(self, repo_path: str) -> Dict[str, LevelInfo]:
         """Analyze repository to find and categorize test files"""
         test_portfolio = {}
         
@@ -137,7 +137,7 @@ class StaticAnalyzer:
             # Get description from RAG
             description = self._get_test_level_description(level_name)
             
-            test_portfolio[level_name] = TestLevel(
+            test_portfolio[level_name] = LevelInfo(
                 name=level_name,
                 files=matching_files,
                 count=len(matching_files),

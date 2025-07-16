@@ -7,10 +7,8 @@ import os
 import sys
 from pathlib import Path
 
-# Add the app directory to the Python path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'app'))
-
-from app.static_analysis import StaticAnalyzer
+# Since we're now in the app directory, import directly
+from static_analysis import StaticAnalyzer
 
 
 def demo_analysis():

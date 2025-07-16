@@ -20,5 +20,3 @@ RESPONSE=$(curl -s -X POST http://localhost:8000/query \
   -d "{\"question\": \"$1\"}")
 
 echo "$RESPONSE" | jq .
-# futher pretty print
-echo "$RESPONSE" | jq -r '.answer' | sed 's/\\n/\n/g' | sed 's/\\t/\t/g'  | sed 's/\\r/\r/g' | sed 's/\\f/\f/g' | sed 's/\\v/\v/g'
