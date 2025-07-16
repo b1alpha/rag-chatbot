@@ -8,7 +8,11 @@ from pathlib import Path
 from dataclasses import dataclass
 from collections import defaultdict
 
-from rag_pipeline import get_answer
+# Use Ollama RAG pipeline instead of OpenAI
+try:
+    from .rag_pipeline_ollama import get_answer
+except ImportError:
+    from rag_pipeline_ollama import get_answer
 
 
 @dataclass
