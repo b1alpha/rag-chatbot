@@ -5,26 +5,38 @@ A Retrieval-Augmented Generation (RAG) chatbot that can answer questions based o
 ## Setup
 
 1. Create a virtual environment and activate it:
+
 ```bash
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
 2. Install dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
 3. Set up your OpenAI API key:
-Create a `.env` file in the root directory and add:
+   Create a `.env` file in the root directory and add:
+
 ```
 OPENAI_API_KEY=your_api_key_here
 ```
 
 4. Add your documents:
-Place your text documents in the `data/sample_docs` directory.
 
-5. Ingest documents:
+   - Place your text documents in the `data/sample_docs` directory
+   - Place your PDF documents in the `data/quality_chunks` directory
+
+5. Process PDFs (if you have PDFs):
+
+   ```bash
+   python app/process_pdfs.py
+   ```
+
+6. Ingest documents:
+
 ```bash
 python app/embed.py
 ```
@@ -32,6 +44,7 @@ python app/embed.py
 ## Running the Application
 
 Start the FastAPI server:
+
 ```bash
 uvicorn app.main:app --reload
 ```
@@ -53,12 +66,14 @@ The server will be available at http://localhost:8000
 Build and run with Docker:
 
 ### Option 1: Using environment variables directly
+
 ```bash
 docker build -t rag-chatbot .
 docker run -p 8000:8000 -e OPENAI_API_KEY=your_api_key_here rag-chatbot
 ```
 
 ### Option 2: Using a .env file
+
 ```bash
 docker build -t rag-chatbot .
 docker run -p 8000:8000 --env-file .env rag-chatbot

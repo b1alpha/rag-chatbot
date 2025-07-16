@@ -3,6 +3,7 @@ uvicorn
 langchain  # Core LangChain functionality
 langchain-community  # Document loaders and vector stores
 langchain-openai  # OpenAI integrations
+langchain-text-splitters  # Text splitting utilities
 openai
 chromadb
 python-dotenv
@@ -12,7 +13,9 @@ flake8
 httpx  # Required for TestClient
 docker  # Required for Docker tests
 requests  # Required for Docker tests
+urllib3<2.0  # Pin below v2 to avoid OpenSSL/LibreSSL compatibility issues
 black  # Code formatter
 ruff  # Fast Python linter
 hatchling  # Modern build backend
 pre-commit  # Git hooks manager
+PyMuPDF  # PDF processing
